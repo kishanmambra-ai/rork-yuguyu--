@@ -11,7 +11,7 @@ import {
   ActivityIndicator,
   Platform,
 } from "react-native";
-import { Dumbbell, Clock, CheckCircle, TrendingUp, Award, Zap, MapPin, TrendingDown, Minus, Target, Calendar } from "lucide-react-native";
+import { Dumbbell, Clock, CheckCircle, TrendingUp, Award, Zap, MapPin, TrendingDown, Minus, Target, Calendar, Lightbulb, AlertCircle } from "lucide-react-native";
 import { calculatePersonalBests, getTopExercises } from "@/utils/workout-stats";
 
 type TimeRange = "7d" | "14d" | "30d" | "90d" | "6mo" | "1y";
@@ -353,6 +353,116 @@ export default function JourneyScreen() {
                   </View>
                 </View>
 
+                {(() => {
+                  const advice = [];
+                  
+                  if (consistencyRate < 50) {
+                    advice.push({
+                      type: 'warning',
+                      title: 'Log More Consistently',
+                      message: `You're tracking only ${consistencyRate.toFixed(0)}% of days. Consistent logging helps you understand your patterns better.`
+                    });
+                  } else if (consistencyRate > 80) {
+                    advice.push({
+                      type: 'success',
+                      title: 'Excellent Tracking!',
+                      message: `${consistencyRate.toFixed(0)}% logging rate shows great dedication. This consistency will help you reach your goals faster.`
+                    });
+                  }
+                  
+                  if (avgProtein > 0 && avgCalories > 0) {
+                    const proteinPerKg = avgProtein;
+                    if (proteinPerKg < 80 && avgCalories > 1500) {
+                      advice.push({
+                        type: 'tip',
+                        title: 'Increase Protein Intake',
+                        message: `You're averaging ${avgProtein.toFixed(0)}g protein/day. Consider aiming for 1.6-2.2g per kg of body weight for muscle building.`
+                      });
+                    } else if (proteinPerKg > 100) {
+                      advice.push({
+                        type: 'success',
+                        title: 'Great Protein Intake',
+                        message: `${avgProtein.toFixed(0)}g/day is excellent for muscle recovery and growth. Keep it up!`
+                      });
+                    }
+                  }
+                  
+                  if (avgWater < 6 && waterValues.length > 0) {
+                    advice.push({
+                      type: 'warning',
+                      title: 'Hydration Needs Attention',
+                      message: `You're averaging ${avgWater.toFixed(1)} glasses/day. Aim for 8-10 glasses for optimal performance and recovery.`
+                    });
+                  } else if (avgWater >= 8) {
+                    advice.push({
+                      type: 'success',
+                      title: 'Well Hydrated',
+                      message: `${avgWater.toFixed(1)} glasses/day is great! Proper hydration supports metabolism and workout performance.`
+                    });
+                  }
+                  
+                  if (weightValues.length >= 3) {
+                    if (weightTrend < -2) {
+                      advice.push({
+                        type: 'warning',
+                        title: 'Rapid Weight Loss',
+                        message: `You've lost ${Math.abs(weightTrend).toFixed(1)}kg. If unintentional, consider increasing calories to prevent muscle loss.`
+                      });
+                    } else if (weightTrend > 2 && daysAgo < 30) {
+                      advice.push({
+                        type: 'warning',
+                        title: 'Quick Weight Gain',
+                        message: `You've gained ${weightTrend.toFixed(1)}kg. If bulking, ensure adequate protein. If cutting, review your calorie intake.`
+                      });
+                    } else if (Math.abs(weightTrend) < 0.5 && daysAgo > 30) {
+                      advice.push({
+                        type: 'tip',
+                        title: 'Weight Stable',
+                        message: 'Your weight is stable. If changing body composition is your goal, consider adjusting your calorie intake by 200-300 kcal.'
+                      });
+                    }
+                  }
+                  
+                  const calorieVariation = maxCalories - minCalories;
+                  if (calorieVariation > 1000 && calorieValues.length > 5) {
+                    advice.push({
+                      type: 'tip',
+                      title: 'Calorie Consistency',
+                      message: `Your intake varies by ${calorieVariation.toFixed(0)} kcal. More consistent eating can help with progress and energy levels.`
+                    });
+                  }
+                  
+                  return advice.length > 0 ? (
+                    <View style={styles.adviceSection}>
+                      <View style={styles.sectionTitleRow}>
+                        <Lightbulb size={18} color={Colors.primaryAccent} />
+                        <Text style={styles.sectionSubtitle}>Health Insights</Text>
+                      </View>
+                      {advice.map((item, index) => (
+                        <View key={index} style={[
+                          styles.adviceCard,
+                          item.type === 'success' && styles.adviceCardSuccess,
+                          item.type === 'warning' && styles.adviceCardWarning,
+                          item.type === 'tip' && styles.adviceCardTip,
+                        ]}>
+                          <View style={styles.adviceHeader}>
+                            {item.type === 'warning' && <AlertCircle size={16} color="#FF6B6B" />}
+                            {item.type === 'success' && <CheckCircle size={16} color="#34C759" />}
+                            {item.type === 'tip' && <Lightbulb size={16} color="#FFE66D" />}
+                            <Text style={[
+                              styles.adviceTitle,
+                              item.type === 'success' && styles.adviceTitleSuccess,
+                              item.type === 'warning' && styles.adviceTitleWarning,
+                              item.type === 'tip' && styles.adviceTitleTip,
+                            ]}>{item.title}</Text>
+                          </View>
+                          <Text style={styles.adviceMessage}>{item.message}</Text>
+                        </View>
+                      ))}
+                    </View>
+                  ) : null;
+                })()}
+
                 <View style={styles.nutritionMetricsSection}>
                   <View style={styles.sectionTitleRow}>
                     <Text style={styles.metricsIcon}>🔥</Text>
@@ -542,6 +652,135 @@ export default function JourneyScreen() {
                   </View>
                 </View>
               </View>
+
+              {(() => {
+                const advice = [];
+                
+                const workoutsPerWeek = (totalActivities / daysAgo) * 7;
+                
+                if (totalActivities === 0) {
+                  advice.push({
+                    type: 'tip',
+                    title: 'Start Your Fitness Journey',
+                    message: 'Begin with 3-4 workouts per week. Consistency is more important than intensity when starting out.'
+                  });
+                } else if (workoutsPerWeek < 2) {
+                  advice.push({
+                    type: 'warning',
+                    title: 'Increase Workout Frequency',
+                    message: `You're averaging ${workoutsPerWeek.toFixed(1)} workouts/week. Aim for 3-4 sessions for optimal results.`
+                  });
+                } else if (workoutsPerWeek >= 5) {
+                  advice.push({
+                    type: 'success',
+                    title: 'Impressive Dedication!',
+                    message: `${workoutsPerWeek.toFixed(1)} workouts/week shows excellent commitment. Don't forget rest days for recovery.`
+                  });
+                } else {
+                  advice.push({
+                    type: 'success',
+                    title: 'Consistent Training',
+                    message: `${workoutsPerWeek.toFixed(1)} workouts/week is a solid routine. You're building sustainable fitness habits.`
+                  });
+                }
+                
+                if (avgDuration > 0 && avgDuration < 30 && totalWorkouts > 3) {
+                  advice.push({
+                    type: 'tip',
+                    title: 'Consider Longer Sessions',
+                    message: `Average ${avgDuration}min per workout. Try extending to 45-60min for better muscle stimulation.`
+                  });
+                } else if (avgDuration > 90 && totalWorkouts > 5) {
+                  advice.push({
+                    type: 'tip',
+                    title: 'Long Workout Duration',
+                    message: `${avgDuration}min average. If feeling fatigued, consider splitting into shorter, more focused sessions.`
+                  });
+                }
+                
+                if (totalVolume > 0 && filteredWorkoutHistory.length >= 5) {
+                  const recentWorkouts = filteredWorkoutHistory.slice(-3);
+                  const olderWorkouts = filteredWorkoutHistory.slice(0, Math.min(3, filteredWorkoutHistory.length - 3));
+                  
+                  if (recentWorkouts.length >= 2 && olderWorkouts.length >= 2) {
+                    const recentVolume = recentWorkouts.reduce((sum, w) => sum + w.exercises.reduce((es, e) => 
+                      es + e.sets.reduce((ss, s) => ss + (s.completed && s.weight && s.reps ? s.weight * s.reps : 0), 0), 0), 0) / recentWorkouts.length;
+                    const olderVolume = olderWorkouts.reduce((sum, w) => sum + w.exercises.reduce((es, e) => 
+                      es + e.sets.reduce((ss, s) => ss + (s.completed && s.weight && s.reps ? s.weight * s.reps : 0), 0), 0), 0) / olderWorkouts.length;
+                    
+                    if (recentVolume > olderVolume * 1.2) {
+                      advice.push({
+                        type: 'success',
+                        title: 'Progressive Overload Working',
+                        message: 'Your training volume is increasing! This progression will lead to strength gains. Keep challenging yourself.'
+                      });
+                    } else if (recentVolume < olderVolume * 0.8) {
+                      advice.push({
+                        type: 'tip',
+                        title: 'Volume Decreasing',
+                        message: 'Your training volume has dropped. If not deloading intentionally, try increasing weight or reps gradually.'
+                      });
+                    }
+                  }
+                }
+                
+                if (topExercises.length < 5 && totalWorkouts > 10) {
+                  advice.push({
+                    type: 'tip',
+                    title: 'Limited Exercise Variety',
+                    message: `You're focusing on few exercises. Adding variety can prevent plateaus and develop balanced strength.`
+                  });
+                }
+                
+                if (personalBests.length > 0 && daysAgo <= 14) {
+                  advice.push({
+                    type: 'success',
+                    title: 'Personal Records Achieved!',
+                    message: `You've set ${personalBests.length} PR${personalBests.length > 1 ? 's' : ''} recently. Your hard work is paying off!`
+                  });
+                }
+                
+                const daysSinceLastWorkout = filteredWorkoutHistory.length > 0 ? 
+                  (Date.now() - new Date(filteredWorkoutHistory[filteredWorkoutHistory.length - 1].completedAt).getTime()) / (1000 * 60 * 60 * 24) : 999;
+                
+                if (daysSinceLastWorkout > 7 && daysSinceLastWorkout < 30) {
+                  advice.push({
+                    type: 'warning',
+                    title: 'Time to Get Back',
+                    message: `It's been ${Math.floor(daysSinceLastWorkout)} days since your last workout. Jump back in - your body will thank you!`
+                  });
+                }
+                
+                return advice.length > 0 ? (
+                  <View style={styles.adviceSection}>
+                    <View style={styles.sectionTitleRow}>
+                      <Lightbulb size={18} color={Colors.primaryAccent} />
+                      <Text style={styles.sectionSubtitle}>Fitness Insights</Text>
+                    </View>
+                    {advice.map((item, index) => (
+                      <View key={index} style={[
+                        styles.adviceCard,
+                        item.type === 'success' && styles.adviceCardSuccess,
+                        item.type === 'warning' && styles.adviceCardWarning,
+                        item.type === 'tip' && styles.adviceCardTip,
+                      ]}>
+                        <View style={styles.adviceHeader}>
+                          {item.type === 'warning' && <AlertCircle size={16} color="#FF6B6B" />}
+                          {item.type === 'success' && <CheckCircle size={16} color="#34C759" />}
+                          {item.type === 'tip' && <Lightbulb size={16} color="#FFE66D" />}
+                          <Text style={[
+                            styles.adviceTitle,
+                            item.type === 'success' && styles.adviceTitleSuccess,
+                            item.type === 'warning' && styles.adviceTitleWarning,
+                            item.type === 'tip' && styles.adviceTitleTip,
+                          ]}>{item.title}</Text>
+                        </View>
+                        <Text style={styles.adviceMessage}>{item.message}</Text>
+                      </View>
+                    ))}
+                  </View>
+                ) : null;
+              })()}
 
               <View style={styles.personalBestsSection}>
                 <View style={styles.sectionTitleRow}>
@@ -1295,5 +1534,62 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: Colors.textSecondary,
     fontWeight: "500",
+  },
+  adviceSection: {
+    paddingHorizontal: 16,
+    marginBottom: 16,
+  },
+  adviceCard: {
+    backgroundColor: Colors.cardBackground,
+    borderRadius: Platform.OS === 'android' ? 8 : 12,
+    padding: 14,
+    marginBottom: 10,
+    borderLeftWidth: 3,
+    borderLeftColor: Colors.primaryAccent,
+    borderWidth: Platform.OS === 'ios' ? 0 : 1,
+    borderColor: Colors.border,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: Platform.OS === 'ios' ? 1 : 2 },
+    shadowOpacity: Platform.OS === 'ios' ? 0.08 : 0.05,
+    shadowRadius: Platform.OS === 'ios' ? 4 : 8,
+    elevation: Platform.OS === 'android' ? 2 : 0,
+  },
+  adviceCardSuccess: {
+    borderLeftColor: "#34C759",
+    backgroundColor: Platform.OS === 'ios' ? Colors.cardBackground : "#34C75905",
+  },
+  adviceCardWarning: {
+    borderLeftColor: "#FF6B6B",
+    backgroundColor: Platform.OS === 'ios' ? Colors.cardBackground : "#FF6B6B05",
+  },
+  adviceCardTip: {
+    borderLeftColor: "#FFE66D",
+    backgroundColor: Platform.OS === 'ios' ? Colors.cardBackground : "#FFE66D05",
+  },
+  adviceHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 6,
+  },
+  adviceTitle: {
+    fontSize: 14,
+    fontWeight: "700",
+    color: Colors.text,
+    flex: 1,
+  },
+  adviceTitleSuccess: {
+    color: "#34C759",
+  },
+  adviceTitleWarning: {
+    color: "#FF6B6B",
+  },
+  adviceTitleTip: {
+    color: "#FFE66D",
+  },
+  adviceMessage: {
+    fontSize: 13,
+    color: Colors.textSecondary,
+    lineHeight: 18,
   },
 });
