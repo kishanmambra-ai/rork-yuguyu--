@@ -618,13 +618,13 @@ export default function JourneyScreen() {
                           <View style={styles.workoutStatDivider} />
                           <View style={styles.workoutStat}>
                             <Text style={styles.workoutStatText}>
-                              {workout.totalSets} {"sets"}
+                              {workout.totalSets} sets
                             </Text>
                           </View>
                           <View style={styles.workoutStatDivider} />
                           <View style={styles.workoutStat}>
                             <Text style={styles.workoutStatText}>
-                              {workout.totalReps} {"reps"}
+                              {workout.totalReps} reps
                             </Text>
                           </View>
                         </View>
