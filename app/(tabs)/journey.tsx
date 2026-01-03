@@ -887,7 +887,7 @@ export default function JourneyScreen() {
                           <View style={styles.workoutTitleRow}>
                             <MapPin size={18} color={Colors.primaryAccent} />
                             <Text style={styles.workoutName}>
-                              {getActivityIcon(activity.type)} {activity.type.charAt(0).toUpperCase() + activity.type.slice(1)}
+                              {`${getActivityIcon(activity.type)} ${activity.type.charAt(0).toUpperCase() + activity.type.slice(1)}`}
                             </Text>
                           </View>
                           <View style={styles.workoutBadge}>
