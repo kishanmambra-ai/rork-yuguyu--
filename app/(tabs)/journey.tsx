@@ -473,19 +473,19 @@ export default function JourneyScreen() {
                       <View style={styles.metricInsightItem}>
                         <Text style={styles.metricInsightLabel}>Average</Text>
                         <Text style={styles.metricInsightValue}>{avgCalories.toFixed(0)}</Text>
-                        <Text style={styles.metricInsightUnit}>{'kcal/day'}</Text>
+                        <Text style={styles.metricInsightUnit}>kcal/day</Text>
                       </View>
                       <View style={styles.metricDividerVertical} />
                       <View style={styles.metricInsightItem}>
                         <Text style={styles.metricInsightLabel}>Highest</Text>
                         <Text style={styles.metricInsightValue}>{maxCalories.toFixed(0)}</Text>
-                        <Text style={styles.metricInsightUnit}>{'kcal'}</Text>
+                        <Text style={styles.metricInsightUnit}>kcal</Text>
                       </View>
                       <View style={styles.metricDividerVertical} />
                       <View style={styles.metricInsightItem}>
                         <Text style={styles.metricInsightLabel}>Lowest</Text>
                         <Text style={styles.metricInsightValue}>{minCalories.toFixed(0)}</Text>
-                        <Text style={styles.metricInsightUnit}>{'kcal'}</Text>
+                        <Text style={styles.metricInsightUnit}>kcal</Text>
                       </View>
                     </View>
                   </View>
@@ -501,19 +501,19 @@ export default function JourneyScreen() {
                       <View style={styles.metricInsightItem}>
                         <Text style={styles.metricInsightLabel}>Average</Text>
                         <Text style={styles.metricInsightValue}>{avgProtein.toFixed(0)}</Text>
-                        <Text style={styles.metricInsightUnit}>{'g/day'}</Text>
+                        <Text style={styles.metricInsightUnit}>g/day</Text>
                       </View>
                       <View style={styles.metricDividerVertical} />
                       <View style={styles.metricInsightItem}>
                         <Text style={styles.metricInsightLabel}>Best Day</Text>
                         <Text style={styles.metricInsightValue}>{maxProtein.toFixed(0)}</Text>
-                        <Text style={styles.metricInsightUnit}>{'g'}</Text>
+                        <Text style={styles.metricInsightUnit}>g</Text>
                       </View>
                       <View style={styles.metricDividerVertical} />
                       <View style={styles.metricInsightItem}>
                         <Text style={styles.metricInsightLabel}>Per 1000 cal</Text>
                         <Text style={styles.metricInsightValue}>{avgCalories > 0 ? ((avgProtein / avgCalories) * 1000).toFixed(0) : 0}</Text>
-                        <Text style={styles.metricInsightUnit}>{'g'}</Text>
+                        <Text style={styles.metricInsightUnit}>g</Text>
                       </View>
                     </View>
                   </View>
@@ -529,14 +529,14 @@ export default function JourneyScreen() {
                       <View style={styles.macroItem}>
                         <Text style={styles.macroEmoji}>🌾</Text>
                         <Text style={styles.macroLabel}>Carbs</Text>
-                        <Text style={styles.macroValue}>{`${avgCarbs.toFixed(0)} g`}</Text>
-                        <Text style={styles.macroPercentage}>{`${avgCalories > 0 ? ((avgCarbs * 4 / avgCalories) * 100).toFixed(0) : 0}%`}</Text>
+                        <Text style={styles.macroValue}>{avgCarbs.toFixed(0)} g</Text>
+                        <Text style={styles.macroPercentage}>{avgCalories > 0 ? ((avgCarbs * 4 / avgCalories) * 100).toFixed(0) : 0}%</Text>
                       </View>
                       <View style={styles.macroItem}>
                         <Text style={styles.macroEmoji}>🥑</Text>
                         <Text style={styles.macroLabel}>Fat</Text>
-                        <Text style={styles.macroValue}>{`${avgFat.toFixed(0)} g`}</Text>
-                        <Text style={styles.macroPercentage}>{`${avgCalories > 0 ? ((avgFat * 9 / avgCalories) * 100).toFixed(0) : 0}%`}</Text>
+                        <Text style={styles.macroValue}>{avgFat.toFixed(0)} g</Text>
+                        <Text style={styles.macroPercentage}>{avgCalories > 0 ? ((avgFat * 9 / avgCalories) * 100).toFixed(0) : 0}%</Text>
                       </View>
                     </View>
                   </View>
@@ -552,19 +552,19 @@ export default function JourneyScreen() {
                       <View style={styles.metricInsightItem}>
                         <Text style={styles.metricInsightLabel}>Daily Average</Text>
                         <Text style={styles.metricInsightValue}>{avgWater.toFixed(1)}</Text>
-                        <Text style={styles.metricInsightUnit}>{'glasses'}</Text>
+                        <Text style={styles.metricInsightUnit}>glasses</Text>
                       </View>
                       <View style={styles.metricDividerVertical} />
                       <View style={styles.metricInsightItem}>
                         <Text style={styles.metricInsightLabel}>Best Day</Text>
                         <Text style={styles.metricInsightValue}>{maxWater.toFixed(0)}</Text>
-                        <Text style={styles.metricInsightUnit}>{'glasses'}</Text>
+                        <Text style={styles.metricInsightUnit}>glasses</Text>
                       </View>
                       <View style={styles.metricDividerVertical} />
                       <View style={styles.metricInsightItem}>
                         <Text style={styles.metricInsightLabel}>Total</Text>
                         <Text style={styles.metricInsightValue}>{(waterValues.reduce((a, b) => a + b, 0)).toFixed(0)}</Text>
-                        <Text style={styles.metricInsightUnit}>{'glasses'}</Text>
+                        <Text style={styles.metricInsightUnit}>glasses</Text>
                       </View>
                     </View>
                   </View>
@@ -589,12 +589,12 @@ export default function JourneyScreen() {
                       <View style={styles.weightDetailsRow}>
                         <View style={styles.weightDetail}>
                           <Text style={styles.weightDetailLabel}>Start</Text>
-                          <Text style={styles.weightDetailValue}>{`${startWeight?.toFixed(1)} kg`}</Text>
+                          <Text style={styles.weightDetailValue}>{startWeight?.toFixed(1)} kg</Text>
                         </View>
                         <View style={styles.metricDividerVertical} />
                         <View style={styles.weightDetail}>
                           <Text style={styles.weightDetailLabel}>Current</Text>
-                          <Text style={styles.weightDetailValue}>{`${latestWeight?.toFixed(1)} kg`}</Text>
+                          <Text style={styles.weightDetailValue}>{latestWeight?.toFixed(1)} kg</Text>
                         </View>
                       </View>
                     </View>
@@ -797,8 +797,8 @@ export default function JourneyScreen() {
                         </Text>
                       </View>
                       <View style={styles.pbRight}>
-                        <Text style={styles.pbWeight}>{`${pb.weight} kg × ${pb.reps}`}</Text>
-                        <Text style={styles.pbVolume}>{`${pb.volume.toFixed(0)} kg total`}</Text>
+                        <Text style={styles.pbWeight}>{pb.weight} kg × {pb.reps}</Text>
+                        <Text style={styles.pbVolume}>{pb.volume.toFixed(0)} kg total</Text>
                       </View>
                     </View>
                   ))
@@ -822,7 +822,7 @@ export default function JourneyScreen() {
                           <Text style={styles.topExerciseRankText}>{index + 1}</Text>
                         </View>
                         <Text style={styles.topExerciseName}>{exercise.name}</Text>
-                        <Text style={styles.topExerciseCount}>{`${exercise.count}×`}</Text>
+                        <Text style={styles.topExerciseCount}>{exercise.count}×</Text>
                       </View>
                     ))}
                   </View>
@@ -857,25 +857,25 @@ export default function JourneyScreen() {
                           <View style={styles.workoutStatDivider} />
                           <View style={styles.workoutStat}>
                             <Text style={styles.workoutStatText}>
-                              {`${workout.totalSets} sets`}
+                              {workout.totalSets} sets
                             </Text>
                           </View>
                           <View style={styles.workoutStatDivider} />
                           <View style={styles.workoutStat}>
                             <Text style={styles.workoutStatText}>
-                              {`${workout.totalReps} reps`}
+                              {workout.totalReps} reps
                             </Text>
                           </View>
                         </View>
                         <View style={styles.exercisesList}>
                           {workout.exercises.slice(0, 3).map((exercise, idx) => (
                             <Text key={exercise.id} style={styles.exerciseItem}>
-                              {`• ${exercise.name}`}
+                              • {exercise.name}
                             </Text>
                           ))}
                           {workout.exercises.length > 3 && (
                             <Text style={styles.moreExercises}>
-                              {`+${workout.exercises.length - 3} more`}
+                              +{workout.exercises.length - 3} more
                             </Text>
                           )}
                         </View>
@@ -887,7 +887,7 @@ export default function JourneyScreen() {
                           <View style={styles.workoutTitleRow}>
                             <MapPin size={18} color={Colors.primaryAccent} />
                             <Text style={styles.workoutName}>
-                              {`${getActivityIcon(activity.type)} ${activity.type.charAt(0).toUpperCase() + activity.type.slice(1)}`}
+                              {getActivityIcon(activity.type)} {activity.type.charAt(0).toUpperCase() + activity.type.slice(1)}
                             </Text>
                           </View>
                           <View style={styles.workoutBadge}>
@@ -913,7 +913,7 @@ export default function JourneyScreen() {
                               <View style={styles.workoutStatDivider} />
                               <View style={styles.workoutStat}>
                                 <Text style={styles.workoutStatText}>
-                                  {`${activity.averageSpeed.toFixed(1)} km/h`}
+                                  {activity.averageSpeed.toFixed(1)} km/h
                                 </Text>
                               </View>
                             </>
@@ -921,7 +921,7 @@ export default function JourneyScreen() {
                         </View>
                         {activity.steps && activity.steps > 0 && (
                           <View style={styles.cardioDetails}>
-                            <Text style={styles.cardioDetailText}>{`👣 ${activity.steps.toLocaleString()} steps`}</Text>
+                            <Text style={styles.cardioDetailText}>👣 {activity.steps.toLocaleString()} steps</Text>
                           </View>
                         )}
                       </View>
