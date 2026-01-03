@@ -10,13 +10,13 @@ export default function Index() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.replace("/diet");
+      router.replace("/(tabs)/diet");
     }
   }, [isAuthenticated]);
 
   const handleStartTracking = async () => {
     await startTracking();
-    router.replace("/diet");
+    router.replace("/(tabs)/diet");
   };
 
   return (
