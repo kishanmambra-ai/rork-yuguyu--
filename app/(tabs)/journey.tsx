@@ -875,7 +875,7 @@ export default function JourneyScreen() {
                           ))}
                           {workout.exercises.length > 3 && (
                             <Text style={styles.moreExercises}>
-                              +{workout.exercises.length - 3} more
+                              {`+${workout.exercises.length - 3} more`}
                             </Text>
                           )}
                         </View>
@@ -921,7 +921,7 @@ export default function JourneyScreen() {
                         </View>
                         {activity.steps && activity.steps > 0 && (
                           <View style={styles.cardioDetails}>
-                            <Text style={styles.cardioDetailText}>👣 {activity.steps.toLocaleString()} steps</Text>
+                            <Text style={styles.cardioDetailText}>{`👣 ${activity.steps.toLocaleString()} steps`}</Text>
                           </View>
                         )}
                       </View>
